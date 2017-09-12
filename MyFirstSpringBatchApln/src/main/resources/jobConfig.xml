@@ -5,13 +5,13 @@
     http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
-	<import resource="DBConfig.xml" />
+	<import resource="jobContext.xml" />
 
-	<batch:job id="sequentialStepJob" restartable="false" job-repository="jobRepository">
-		<batch:step id="initialiseJob">
-			<batch:tasklet ref="initialiseImpl" />
+	<batch:job id="MyFirstBatch" restartable="false" job-repository="jobRepository">
+		<batch:step id="firstStep">
+			<batch:tasklet ref="firstStepImpl" />
 		</batch:step>
 	</batch:job>
-	<bean id="initialiseImpl" class="com.cts.training.Step1" />
+	<bean id="firstStepImpl" class="com.cts.training.BatchStepOne" />
 
 </beans>

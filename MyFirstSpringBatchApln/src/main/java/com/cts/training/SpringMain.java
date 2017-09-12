@@ -8,12 +8,12 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Main {
+public class SpringMain {
 	public static void main(String[] args) {
 		String[] str = { "jobConfig.xml" };
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(str);
 		JobLauncher jobLauncher = (JobLauncher) ctx.getBean("jobLauncher");
-		Job job = (Job) ctx.getBean("sequentialStepJob");
+		Job job = (Job) ctx.getBean("MyFirstBatch");
 		try {
 			JobParameters jobParameters = new JobParametersBuilder().addLong(
 					"time", System.currentTimeMillis()).toJobParameters();
