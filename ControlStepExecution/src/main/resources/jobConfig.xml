@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<import resource="jobContext.xml" />
+
+	<batch:job id="StepControlBatch" restartable="true" job-repository="jobRepository">
+		<batch:step id="firstStep">
+			<batch:tasklet ref="firstStepImpl" />
+			<batch:next on="FAILED" to="thirdStep"/>
+			<batch:next on="COMPLETED" to="twoStep"/>
+		</batch:step>
+		<batch:step id="twoStep" next="thirdStep">
+			<batch:tasklet ref="secondStepImpl" />
+		</batch:step>
+		<batch:step id="thirdStep">
+			<batch:tasklet ref="thirdStepImpl" />
+		</batch:step>
+	</batch:job>
+	<bean id="firstStepImpl" class="com.spring.ex.StepOne" />
+	<bean id="secondStepImpl" class="com.spring.ex.StepTwo" />
+	<bean id="thirdStepImpl" class="com.spring.ex.StepThree" />
+
+</beans>
