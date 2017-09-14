@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<import resource="jobContext.xml" />
+	
+	<bean id="myReader" class="com.spring.ex.MyReaderClass">
+	    <property name="Legends">
+	        <list>
+	            <value>Bjarne Stroustrup</value>
+	            <value>Dennis Richie</value>
+	            <value>James Gosling</value>
+	            <value>Charles Babbage</value>
+	        </list>
+	    </property>	    
+	</bean>
+
+	<bean id="myProcessor" class="com.spring.ex.MyProcessorClass"></bean>
+	
+	<bean id="myWriter" class="com.spring.ex.MyWriterClass"></bean>
+	
+	<batch:job id="chunkprocess" restartable="true" job-repository="jobRepository">
+		<batch:step id="firstStep">
+			<batch:tasklet transaction-manager="transactionManager">
+			    <batch:chunk reader="myReader" processor="myProcessor" writer="myWriter" commit-interval="1">			        
+			    </batch:chunk>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+</beans>
