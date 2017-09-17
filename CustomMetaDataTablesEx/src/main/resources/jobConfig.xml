@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<import resource="jobContext.xml" />
+
+	<batch:job-repository id="jobRepository"
+		data-source="dataSource" transaction-manager="transactionManager"
+		isolation-level-for-create="SERIALIZABLE" table-prefix="CTS_"
+		max-varchar-length="1000" />
+
+	<batch:job id="cusmetadatatblex" restartable="true"
+		job-repository="jobRepository">
+		<batch:step id="firstStep">
+			<batch:tasklet ref="firstStepImpl" />
+		</batch:step>
+	</batch:job>
+	<bean id="firstStepImpl" class="com.spring.ex.BatchStepOne" />
+
+
+</beans>
